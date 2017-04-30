@@ -19,6 +19,7 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
+using System.Windows;
 using ResourceProvider.Exceptions;
 
 namespace ResourceProvider.Interfaces
@@ -51,5 +52,13 @@ namespace ResourceProvider.Interfaces
         /// Получить список зарегистрированных словарей ресурсов
         /// </summary>
         List<string> GetDictionaryNames();
+
+        /// <summary>
+        /// Получить словарь по имени
+        /// </summary>
+        /// <param name="dictionaryName">Имя словаря</param>
+        /// <exception cref="DictionaryNotRegisteredException">Словарь не зарегистрирован.</exception>
+        /// <returns>Зарегистрированный словарь</returns>
+        ResourceDictionary GetDictionary(string dictionaryName);
     }
 }

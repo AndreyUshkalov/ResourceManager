@@ -148,5 +148,28 @@ namespace ResourceProvider.Tests
             Assert.Contains(ResourceProviderTestsConstants.Dictionary1.Name, actual);
             Assert.Contains(ResourceProviderTestsConstants.Dictionary2.Name, actual);
         }
+
+        [Test]
+        public void GetDictionary_ReturnsRegisteredInstance()
+        {
+            IResourceProvider resourceProvider = new ResourceProvider();
+            RegisterFirstDictionary(resourceProvider);
+
+            var expected = resourceProvider.GetDictionary(ResourceProviderTestsConstants.Dictionary1.Name);
+            var actual = resourceProvider.GetDictionary(ResourceProviderTestsConstants.Dictionary1.Name);
+
+            Assert.AreEqual(ResourceProviderTestsConstants.Dictionary1.Path, actual.Source.AbsoluteUri);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void GetDictionary_DictionaryNotRegistered_Throws()
+        {
+            IResourceProvider resourceProvider = new ResourceProvider();
+            RegisterFirstDictionary(resourceProvider);
+
+            Assert.Throws<DictionaryNotRegisteredException>(
+                () => resourceProvider.GetDictionary(ResourceProviderTestsConstants.Dictionary2.Name));
+        }
     }
 }

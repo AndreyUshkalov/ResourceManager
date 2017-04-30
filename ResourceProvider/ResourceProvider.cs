@@ -86,5 +86,20 @@ namespace ResourceProvider
         {
             return _registeredDictionaries.Keys.ToList();
         }
+
+        /// <summary>
+        /// Получить словарь по имени
+        /// </summary>
+        /// <param name="dictionaryName">Имя словаря</param>
+        /// <exception cref="DictionaryNotRegisteredException">Словарь не зарегистрирован.</exception>
+        /// <returns>Зарегистрированный словарь</returns>
+        public ResourceDictionary GetDictionary(string dictionaryName)
+        {
+            ResourceDictionary dictionary;
+            if (!_registeredDictionaries.TryGetValue(dictionaryName, out dictionary))
+                throw new DictionaryNotRegisteredException();
+
+            return dictionary;
+        }
     }
 }

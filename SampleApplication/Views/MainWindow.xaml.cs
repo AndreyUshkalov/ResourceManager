@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using SampleApplication.Infrastructure;
 using SampleApplication.ViewModels;
 
 namespace SampleApplication.Views
@@ -30,7 +31,9 @@ namespace SampleApplication.Views
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel(App.GetResourceProvider());
+            var resourceProvider = App.GetResourceProvider();
+            Resources.MergedDictionaries.Add(resourceProvider.GetDictionary(Constants.StringDictionary.Name));
+            DataContext = new MainViewModel(resourceProvider);
         }
     }
 }
