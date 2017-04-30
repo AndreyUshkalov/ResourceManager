@@ -31,7 +31,7 @@ namespace SampleApplication
         public App()
         {
             ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary.Path, Constants.StringDictionary.Name);
+            ResourceProvider.RegisterDictionary(Constants.StringDictionary);
         }
 
         /// <summary>

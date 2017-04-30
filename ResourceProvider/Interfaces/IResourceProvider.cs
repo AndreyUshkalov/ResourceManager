@@ -32,10 +32,9 @@ namespace ResourceProvider.Interfaces
         /// <summary>
         /// Регистрация словаря ресурсов
         /// </summary>
-        /// <param name="dictionaryPath">Путь к словарю ресурсов</param>
-        /// <param name="dictionaryName">Имя словаря ресурсов</param>
+        /// <param name="dictionaryInfo">Информация о словаре ресурсов</param>
         /// <exception cref="DictionaryAlreadyRegisteredWithOtherNameException">Словарь ресурсов зарегистрирован под другим именем.</exception>
-        void RegisterDictionary(string dictionaryPath, string dictionaryName);
+        void RegisterDictionary(ResourceDictionaryInfo dictionaryInfo);
 
         /// <summary>
         /// Получить ресурс из словаря

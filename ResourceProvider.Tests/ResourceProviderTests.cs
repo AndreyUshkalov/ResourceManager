@@ -36,7 +36,7 @@ namespace ResourceProvider.Tests
         /// <param name="resourceProvider">Провайдер ресурсов</param>
         private static void RegisterFirstDictionary(IResourceProvider resourceProvider)
         {
-            resourceProvider.RegisterDictionary(ResourceProviderTestsConstants.Dictionary1.Path, ResourceProviderTestsConstants.Dictionary1.Name);
+            resourceProvider.RegisterDictionary(ResourceProviderTestsConstants.Dictionary1);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ResourceProvider.Tests
         /// <param name="resourceProvider">провайдер ресурсов</param>
         private static void RegisterSecondDictionary(IResourceProvider resourceProvider)
         {
-            resourceProvider.RegisterDictionary(ResourceProviderTestsConstants.Dictionary2.Path, ResourceProviderTestsConstants.Dictionary2.Name);
+            resourceProvider.RegisterDictionary(ResourceProviderTestsConstants.Dictionary2);
         }
 
         [Test]
@@ -80,10 +80,12 @@ namespace ResourceProvider.Tests
             RegisterFirstDictionary(resourceProvider);
             RegisterSecondDictionary(resourceProvider);
 
+            var invalidDictionary = new ResourceDictionaryInfo(
+                                        ResourceProviderTestsConstants.Dictionary1.Path,
+                                        ResourceProviderTestsConstants.Dictionary3Name);
+
             Assert.Throws<DictionaryAlreadyRegisteredWithOtherNameException>(
-                () => resourceProvider.RegisterDictionary(
-                            ResourceProviderTestsConstants.Dictionary1.Path,
-                            ResourceProviderTestsConstants.Dictionary3Name));
+                () => resourceProvider.RegisterDictionary(invalidDictionary));
         }
 
         [Test]

@@ -40,22 +40,21 @@ namespace ResourceProvider
         /// <summary>
         /// Регистрация словаря ресурсов
         /// </summary>
-        /// <param name="dictionaryPath">Путь к словарю ресурсов</param>
-        /// <param name="dictionaryName">Имя словаря ресурсов</param>
+        /// <param name="dictionaryInfo">Информация о словаре ресурсов</param>
         /// <exception cref="DictionaryAlreadyRegisteredWithOtherNameException">Словарь ресурсов зарегистрирован под другим именем.</exception>
-        public void RegisterDictionary(string dictionaryPath, string dictionaryName)
+        public void RegisterDictionary(ResourceDictionaryInfo dictionaryInfo)
         {
-            var source = new Uri(dictionaryPath);
+            var source = new Uri(dictionaryInfo.Path);
 
             ResourceDictionary value;
-            if (_registeredDictionaries.TryGetValue(dictionaryName, out value) && value.Source == source)
+            if (_registeredDictionaries.TryGetValue(dictionaryInfo.Name, out value) && value.Source == source)
                 return;
 
             if (_registeredDictionaries.Values.Any(d => d.Source == source))
                 throw new DictionaryAlreadyRegisteredWithOtherNameException();
 
             var dictionary = new ResourceDictionary { Source = source };
-            _registeredDictionaries.Add(dictionaryName, dictionary);
+            _registeredDictionaries.Add(dictionaryInfo.Name, dictionary);
         }
 
         /// <summary>
