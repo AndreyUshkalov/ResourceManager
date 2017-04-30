@@ -18,33 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using ResourceProvider.Interfaces;
-using SampleApplication.Infrastructure;
+using ResourceProvider;
 
-namespace SampleApplication
+namespace SampleApplication.Infrastructure
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// Константы приложения
     /// </summary>
-    public partial class App
+    public static class Constants
     {
-        public App()
-        {
-            ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary.Path, Constants.StringDictionary.Name);
-        }
-
         /// <summary>
-        /// Провайдер ресурсов
+        /// Словарь со строками
         /// </summary>
-        public IResourceProvider ResourceProvider { get; private set; }
-
-        /// <summary>
-        /// Получить провайдер ресурсов приложения
-        /// </summary>
-        public static IResourceProvider GetResourceProvider()
-        {
-            return ((App)Current).ResourceProvider;
-        }
+        public static readonly ResourceDictionaryInfo StringDictionary = new ResourceDictionaryInfo(
+            "pack://application:,,,/SampleApplication;component/Resources/StringDictionary.xaml",
+            "DICTIONARY1");
     }
 }

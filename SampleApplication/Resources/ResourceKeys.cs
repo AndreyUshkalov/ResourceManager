@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2017 Andrey Ushkalov
+// Copyright (c) 2017 Andrey Ushkalov
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,33 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using ResourceProvider.Interfaces;
-using SampleApplication.Infrastructure;
-
-namespace SampleApplication
+namespace SampleApplication.Resources
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// ����� ��������
     /// </summary>
-    public partial class App
+    public static class ResourceKeys
     {
-        public App()
-        {
-            ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary.Path, Constants.StringDictionary.Name);
-        }
-
-        /// <summary>
-        /// Провайдер ресурсов
-        /// </summary>
-        public IResourceProvider ResourceProvider { get; private set; }
-
-        /// <summary>
-        /// Получить провайдер ресурсов приложения
-        /// </summary>
-        public static IResourceProvider GetResourceProvider()
-        {
-            return ((App)Current).ResourceProvider;
-        }
+        public static string MainWindowTitleKey = "MainWindow";
+        public static string ClickMeKey = "ClickMe";
+        public static string SomeValueKey = "SomeValue";
     }
 }

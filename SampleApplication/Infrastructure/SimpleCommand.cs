@@ -18,33 +18,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using ResourceProvider.Interfaces;
-using SampleApplication.Infrastructure;
+using System;
+using System.Windows.Input;
 
-namespace SampleApplication
+namespace SampleApplication.Infrastructure
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// Простейшая реализация команды
     /// </summary>
-    public partial class App
+    public class SimpleCommand : ICommand
     {
-        public App()
+        /// <summary>
+        /// Метод, который должна выполнить команда
+        /// </summary>
+        private readonly Action _execute;
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="execute">Метод, который должна выполнить команда</param>
+        public SimpleCommand(Action execute)
         {
-            ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary.Path, Constants.StringDictionary.Name);
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
         }
 
         /// <summary>
-        /// Провайдер ресурсов
+        /// Может ли выполниться команда
         /// </summary>
-        public IResourceProvider ResourceProvider { get; private set; }
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
 
         /// <summary>
-        /// Получить провайдер ресурсов приложения
+        /// Выполнить команду
         /// </summary>
-        public static IResourceProvider GetResourceProvider()
+        public void Execute(object parameter)
         {
-            return ((App)Current).ResourceProvider;
+            _execute();
         }
+
+        public event EventHandler CanExecuteChanged;
     }
 }

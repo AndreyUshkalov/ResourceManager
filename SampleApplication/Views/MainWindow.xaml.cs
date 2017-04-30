@@ -18,33 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using ResourceProvider.Interfaces;
-using SampleApplication.Infrastructure;
+using SampleApplication.ViewModels;
 
-namespace SampleApplication
+namespace SampleApplication.Views
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class App
+    public partial class MainWindow
     {
-        public App()
+        public MainWindow()
         {
-            ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary.Path, Constants.StringDictionary.Name);
-        }
-
-        /// <summary>
-        /// Провайдер ресурсов
-        /// </summary>
-        public IResourceProvider ResourceProvider { get; private set; }
-
-        /// <summary>
-        /// Получить провайдер ресурсов приложения
-        /// </summary>
-        public static IResourceProvider GetResourceProvider()
-        {
-            return ((App)Current).ResourceProvider;
+            InitializeComponent();
+            DataContext = new MainViewModel(App.GetResourceProvider());
         }
     }
 }
