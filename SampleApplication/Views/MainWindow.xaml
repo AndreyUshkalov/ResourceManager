@@ -2,11 +2,38 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SampleApplication.Resources"
+        xmlns:infrastructure="clr-namespace:SampleApplication.Infrastructure"
         Height="200"
         Width="300"
         Title="{DynamicResource {x:Static resources:ResourceKeys.MainWindowTitleKey}}">
+    <Window.Resources>
+        <infrastructure:CultureInfoToBoolConverter x:Key="CultureInfoToBoolConverter"/>
+        <Style TargetType="{x:Type RadioButton}"
+               BasedOn="{StaticResource {x:Type RadioButton}}">
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Command" Value="{Binding SetCultureCommand}"/>
+        </Style>
+    </Window.Resources>
 
-    <Button Content="{DynamicResource {x:Static resources:ResourceKeys.ClickMeKey}}"
-            Command="{Binding ShowResourceCommand}"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <RadioButton Content="{DynamicResource {x:Static resources:ResourceKeys.DefaultKey}}"
+                         IsChecked="{Binding CurrentCultureInfo, Mode=OneWay, Converter={StaticResource CultureInfoToBoolConverter}, ConverterParameter={x:Null}}"
+                         CommandParameter="{x:Null}"/>
+            <RadioButton Content="{DynamicResource {x:Static resources:ResourceKeys.RuRuKey}}"
+                         IsChecked="{Binding CurrentCultureInfo, Mode=OneWay, Converter={StaticResource CultureInfoToBoolConverter}, ConverterParameter=ru-RU}"
+                         CommandParameter="ru-RU"/>
+            <RadioButton Content="{DynamicResource {x:Static resources:ResourceKeys.EnUsKey}}"
+                         IsChecked="{Binding CurrentCultureInfo, Mode=OneWay, Converter={StaticResource CultureInfoToBoolConverter}, ConverterParameter=en-US}"
+                         CommandParameter="en-US"/>
+        </StackPanel>
+
+        <Button Grid.Column="1"
+                Content="{DynamicResource {x:Static resources:ResourceKeys.ClickMeKey}}"
+                Command="{Binding ShowResourceCommand}"/>
+    </Grid>
 </Window>
- 

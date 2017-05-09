@@ -49,8 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceDictionaryInfoTests.cs" />
     <Compile Include="ResourceProviderTests.cs" />
-    <Compile Include="ResourceProviderTestsConstants.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="ResourceProviderTestsSetup.cs" />
     <Compile Include="TestDictionaryTests.cs" />
   </ItemGroup>
@@ -58,11 +59,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TestDictionaries\Dictionary1.xaml">
+    <Page Include="TestDictionaries\Dictionary2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TestDictionaries\Dictionary2.xaml">
+    <Page Include="TestDictionaries\en-US\Dictionary1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TestDictionaries\ru-RU\Dictionary1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

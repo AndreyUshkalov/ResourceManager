@@ -20,8 +20,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
+using ResourceProvider.Events;
 using ResourceProvider.Exceptions;
 using ResourceProvider.Interfaces;
 
@@ -38,21 +40,95 @@ namespace ResourceProvider
         private readonly Dictionary<string, ResourceDictionary> _registeredDictionaries = new Dictionary<string, ResourceDictionary>();
 
         /// <summary>
+        /// Зарегистрированные словари
+        /// </summary>
+        private readonly Dictionary<string, ResourceDictionaryInfo> _resourceDictionaryInfos = new Dictionary<string, ResourceDictionaryInfo>();
+
+        private CultureInfo _cultureInfo;
+        /// <summary>
+        /// Текущая культура
+        /// </summary>
+        /// <remarks>
+        /// По-умолчанию культура равна null
+        /// </remarks>
+        public CultureInfo CultureInfo
+        {
+            get { return _cultureInfo; }
+            set
+            {
+                if (Equals(_cultureInfo, value))
+                    return;
+
+                var oldValue = _cultureInfo;
+                _cultureInfo = value;
+
+                OnCultureInfoChanged(oldValue, _cultureInfo);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик изменения текущей культуры
+        /// </summary>
+        /// <param name="oldValue">Предыдущее значение</param>
+        /// <param name="newValue">Новое значение</param>
+        private void OnCultureInfoChanged(CultureInfo oldValue, CultureInfo newValue)
+        {
+            foreach (var dictionaryInfo in _resourceDictionaryInfos.Values)
+            {
+                UpdateRegisteredDictionary(dictionaryInfo, newValue);
+            }
+            OnCultureInfoChanged(new CultureInfoChangedEventArgs(oldValue, newValue));
+        }
+
+        /// <summary>
+        /// Событие смены текущей культуры
+        /// </summary>
+        public event EventHandler<CultureInfoChangedEventArgs> CultureInfoChanged = delegate { };
+
+        /// <summary>
+        /// Инвокатор события смены текщей культуры
+        /// </summary>
+        /// <param name="e">Аргументы события</param>
+        protected virtual void OnCultureInfoChanged(CultureInfoChangedEventArgs e)
+        {
+            CultureInfoChanged(this, e);
+        }
+
+        /// <summary>
         /// Регистрация словаря ресурсов
         /// </summary>
         /// <param name="dictionaryInfo">Информация о словаре ресурсов</param>
-        /// <exception cref="DictionaryAlreadyRegisteredWithOtherNameException">Словарь ресурсов зарегистрирован под другим именем.</exception>
+        /// <exception cref="OtherDictionaryAlreadyRegisteredWithSameNameException">Другой словарь уже зарегистрирован под таким именем.</exception>
         public void RegisterDictionary(ResourceDictionaryInfo dictionaryInfo)
         {
-            var source = new Uri(dictionaryInfo.Path);
+            if (_resourceDictionaryInfos.TryGetValue(dictionaryInfo.Name, out ResourceDictionaryInfo di))
+            {
+                if (di == dictionaryInfo)
+                    return;
 
-            ResourceDictionary value;
-            if (_registeredDictionaries.TryGetValue(dictionaryInfo.Name, out value) && value.Source == source)
-                return;
+                throw new OtherDictionaryAlreadyRegisteredWithSameNameException(dictionaryInfo.Name);
+            }
 
-            if (_registeredDictionaries.Values.Any(d => d.Source == source))
-                throw new DictionaryAlreadyRegisteredWithOtherNameException();
+            _resourceDictionaryInfos.Add(dictionaryInfo.Name, dictionaryInfo);
+            UpdateRegisteredDictionary(dictionaryInfo, CultureInfo);
+        }
 
+        /// <summary>
+        /// Обновить словарь зарегистрированных словарей
+        /// </summary>
+        /// <param name="dictionaryInfo">Информация о словаре</param>
+        /// <param name="cultureInfo">Культура</param>
+        private void UpdateRegisteredDictionary(ResourceDictionaryInfo dictionaryInfo, CultureInfo cultureInfo)
+        {
+            var source = new Uri(dictionaryInfo.GetPath(cultureInfo));
+
+            if (_registeredDictionaries.TryGetValue(dictionaryInfo.Name, out ResourceDictionary d))
+            {
+                if (d.Source == source)
+                    return;
+
+                _registeredDictionaries.Remove(dictionaryInfo.Name);
+            }
             var dictionary = new ResourceDictionary { Source = source };
             _registeredDictionaries.Add(dictionaryInfo.Name, dictionary);
         }

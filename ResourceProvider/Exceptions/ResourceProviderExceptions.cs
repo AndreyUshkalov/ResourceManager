@@ -87,26 +87,26 @@ namespace ResourceProvider.Exceptions
     }
 
     /// <summary>
-    /// Словарь уже зарегистрирован под другим именем
+    /// Другой словарь уже зарегистрирован под таким именем
     /// </summary>
     [Serializable]
-    public class DictionaryAlreadyRegisteredWithOtherNameException : ResourceProviderException
+    public class OtherDictionaryAlreadyRegisteredWithSameNameException : ResourceProviderException
     {
-        public DictionaryAlreadyRegisteredWithOtherNameException()
+        public OtherDictionaryAlreadyRegisteredWithSameNameException()
         {
         }
 
-        public DictionaryAlreadyRegisteredWithOtherNameException(string message)
+        public OtherDictionaryAlreadyRegisteredWithSameNameException(string message)
             : base(message)
         {
         }
 
-        public DictionaryAlreadyRegisteredWithOtherNameException(string message, Exception inner)
+        public OtherDictionaryAlreadyRegisteredWithSameNameException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        protected DictionaryAlreadyRegisteredWithOtherNameException(
+        protected OtherDictionaryAlreadyRegisteredWithSameNameException(
             SerializationInfo info,
             StreamingContext context)
             : base(info, context)

@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:SampleApplication.Resources">
+
+    <system:String x:Key="{x:Static local:ResourceKeys.MainWindowTitleKey}">Главное окно</system:String>
+    <system:String x:Key="{x:Static local:ResourceKeys.ClickMeKey}">Нажми меня!</system:String>
+    <system:String x:Key="{x:Static local:ResourceKeys.SomeValueKey}">Значение из словаря</system:String>
+
+</ResourceDictionary>

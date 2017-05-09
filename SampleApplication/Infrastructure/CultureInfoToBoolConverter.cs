@@ -18,37 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using ResourceProvider.Interfaces;
-using SampleApplication.Infrastructure;
+using System;
+using System.Globalization;
+using System.Windows.Data;
 
-namespace SampleApplication
+namespace SampleApplication.Infrastructure
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
-    public partial class App
+    public class CultureInfoToBoolConverter : IValueConverter
     {
-        /// <summary>
-        /// Инициализирует экземпляр приложения
-        /// </summary>
-        public App()
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ResourceProvider = new ResourceProvider.ResourceProvider();
-            ResourceProvider.RegisterDictionary(Constants.CultureInfoNamesDictionary);
-            ResourceProvider.RegisterDictionary(Constants.StringDictionary);
+            var name = parameter as string;
+            var cultureInfo = name == null ? null : CultureInfo.GetCultureInfo(name);
+            return Equals(value as CultureInfo, cultureInfo);
         }
 
-        /// <summary>
-        /// Провайдер ресурсов
-        /// </summary>
-        public IResourceProvider ResourceProvider { get; private set; }
-
-        /// <summary>
-        /// Получить провайдер ресурсов приложения
-        /// </summary>
-        public static IResourceProvider GetResourceProvider()
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((App)Current).ResourceProvider;
+            throw new NotSupportedException();
         }
     }
 }

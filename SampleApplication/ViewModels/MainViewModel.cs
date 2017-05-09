@@ -20,6 +20,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -46,6 +47,7 @@ namespace SampleApplication.ViewModels
         {
             _resourceProvider = resourceProvider ?? throw new ArgumentNullException(nameof(resourceProvider));
             ShowResourceCommand = new SimpleCommand(OnShowResourceCommandExecute);
+            SetCultureCommand = new SimpleCommand<string>(OnSetCultureCommandExecute);
         }
 
         /// <summary>
@@ -59,6 +61,51 @@ namespace SampleApplication.ViewModels
         private void OnShowResourceCommandExecute()
         {
             MessageBox.Show(_resourceProvider.GetResource<string>(ResourceKeys.SomeValueKey, Constants.StringDictionary.Name));
+        }
+
+        /// <summary>
+        /// Текущая культура
+        /// </summary>
+        public CultureInfo CurrentCultureInfo
+        {
+            get { return _resourceProvider.CultureInfo; }
+            set
+            {
+                if (Equals(_resourceProvider.CultureInfo, value))
+                    return;
+
+                _resourceProvider.CultureInfo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Команда смены культуры
+        /// </summary>
+        public ICommand SetCultureCommand { get; }
+
+        /// <summary>
+        /// Обработчик команды смены культуры
+        /// </summary>
+        /// <param name="cultureInfoName">Имя культуры</param>
+        private void OnSetCultureCommandExecute(string cultureInfoName)
+        {
+            if (cultureInfoName == null)
+            {
+                CurrentCultureInfo = null;
+                return;
+            }
+
+            try
+            {
+                CurrentCultureInfo = CultureInfo.GetCultureInfo(cultureInfoName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                CurrentCultureInfo = null;
+            }
+
         }
 
         #region INotifyPropertyChaned

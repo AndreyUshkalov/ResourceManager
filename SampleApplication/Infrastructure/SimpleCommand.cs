@@ -60,4 +60,42 @@ namespace SampleApplication.Infrastructure
 
         public event EventHandler CanExecuteChanged;
     }
+
+    /// <summary>
+    /// Простейшая реализация команды
+    /// </summary>
+    public class SimpleCommand<T> : ICommand
+    {
+        /// <summary>
+        /// Метод, который должна выполнить команда
+        /// </summary>
+        private readonly Action<T> _execute;
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="execute">Метод, который должна выполнить команда</param>
+        public SimpleCommand(Action<T> execute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+        }
+
+        /// <summary>
+        /// Может ли выполниться команда
+        /// </summary>
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Выполнить команду
+        /// </summary>
+        public void Execute(object parameter)
+        {
+            _execute(parameter is T ? (T)parameter : default(T));
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
 }

@@ -25,8 +25,12 @@ namespace SampleApplication.Resources
     /// </summary>
     public static class ResourceKeys
     {
-        public static string MainWindowTitleKey = "MainWindow";
-        public static string ClickMeKey = "ClickMe";
-        public static string SomeValueKey = "SomeValue";
+        public const string RuRuKey = "RuRu";
+        public const string EnUsKey = "EnUs";
+        public const string DefaultKey = "Default";
+
+        public const string MainWindowTitleKey = "MainWindow";
+        public const string ClickMeKey = "ClickMe";
+        public const string SomeValueKey = "SomeValue";
     }
 }

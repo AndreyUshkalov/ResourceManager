@@ -18,8 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
+using ResourceProvider.Events;
 using ResourceProvider.Exceptions;
 
 namespace ResourceProvider.Interfaces
@@ -30,10 +33,23 @@ namespace ResourceProvider.Interfaces
     public interface IResourceProvider
     {
         /// <summary>
+        /// Текущая культура
+        /// </summary>
+        /// <remarks>
+        /// По-умолчанию культура равна null
+        /// </remarks>
+        CultureInfo CultureInfo { get; set; }
+
+        /// <summary>
+        /// Событие смены текущей культуры
+        /// </summary>
+        event EventHandler<CultureInfoChangedEventArgs> CultureInfoChanged;
+
+        /// <summary>
         /// Регистрация словаря ресурсов
         /// </summary>
         /// <param name="dictionaryInfo">Информация о словаре ресурсов</param>
-        /// <exception cref="DictionaryAlreadyRegisteredWithOtherNameException">Словарь ресурсов зарегистрирован под другим именем.</exception>
+        /// <exception cref="OtherDictionaryAlreadyRegisteredWithSameNameException">Другой словарь уже зарегистрирован под таким именем.</exception>
         void RegisterDictionary(ResourceDictionaryInfo dictionaryInfo);
 
         /// <summary>

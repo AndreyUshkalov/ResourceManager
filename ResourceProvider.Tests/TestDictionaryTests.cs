@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Andrey Ushkalov
+п»ї// Copyright (c) 2017 Andrey Ushkalov
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,49 +25,64 @@ using NUnit.Framework;
 namespace ResourceProvider.Tests
 {
     /// <summary>
-    /// Тесты для проверки содержимого тестовых словарей
+    /// РўРµСЃС‚С‹ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃРѕРґРµСЂР¶РёРјРѕРіРѕ С‚РµСЃС‚РѕРІС‹С… СЃР»РѕРІР°СЂРµР№
     /// </summary>
     [TestFixture]
     public class TestDictionaryTests
     {
         /// <summary>
-        /// ПОлучить словарь ресурсов
+        /// РџРѕР»СѓС‡РёС‚СЊ СЃР»РѕРІР°СЂСЊ СЂРµСЃСѓСЂСЃРѕРІ
         /// </summary>
-        /// <param name="path">Путь к словарю</param>
+        /// <param name="path">РџСѓС‚СЊ Рє СЃР»РѕРІР°СЂСЋ</param>
         private static ResourceDictionary GetResourceDictionary(string path)
         {
             return new ResourceDictionary { Source = new Uri(path) };
         }
 
         [Test]
-        public void TestDictionary1Exists()
+        public void TestDictionary1RuRuExists()
         {
-            GetResourceDictionary(ResourceProviderTestsConstants.Dictionary1.Path);
+            GetResourceDictionary(Constants.RuRu.Dictionary1Path);
         }
 
         [Test]
-        public void TestDictionary1Content()
+        public void TestDictionary1RuRuContent()
         {
-            var testDictionary = GetResourceDictionary(ResourceProviderTestsConstants.Dictionary1.Path);
-            Assert.Contains(ResourceProviderTestsConstants.DictionaryKey1, testDictionary.Keys);
-            Assert.AreEqual(ResourceProviderTestsConstants.Dictionary1Value1, testDictionary[ResourceProviderTestsConstants.DictionaryKey1]);
-            Assert.That(testDictionary.Keys, Has.No.Contain(ResourceProviderTestsConstants.DictionaryKey2));
+            var testDictionary = GetResourceDictionary(Constants.RuRu.Dictionary1Path);
+            Assert.Contains(Constants.DictionaryKey1, testDictionary.Keys);
+            Assert.AreEqual(Constants.RuRu.Dictionary1Value1, testDictionary[Constants.DictionaryKey1]);
+            Assert.That(testDictionary.Keys, Has.No.Contain(Constants.DictionaryKey2));
+        }
+
+        [Test]
+        public void TestDictionary1EnUsExists()
+        {
+            GetResourceDictionary(Constants.EnUs.Dictionary1Path);
+        }
+
+        [Test]
+        public void TestDictionary1EnUsContent()
+        {
+            var testDictionary = GetResourceDictionary(Constants.EnUs.Dictionary1Path);
+            Assert.Contains(Constants.DictionaryKey1, testDictionary.Keys);
+            Assert.AreEqual(Constants.EnUs.Dictionary1Value1, testDictionary[Constants.DictionaryKey1]);
+            Assert.That(testDictionary.Keys, Has.No.Contain(Constants.DictionaryKey2));
         }
 
         [Test]
         public void TestDictionary2Exists()
         {
-            GetResourceDictionary(ResourceProviderTestsConstants.Dictionary2.Path);
+            GetResourceDictionary(Constants.Default.Dictionary2Path);
         }
 
         [Test]
         public void TestDictionary2Content()
         {
-            var testDictionary = GetResourceDictionary(ResourceProviderTestsConstants.Dictionary2.Path);
-            Assert.Contains(ResourceProviderTestsConstants.DictionaryKey1, testDictionary.Keys);
-            Assert.AreEqual(ResourceProviderTestsConstants.Dictionary2Value1, testDictionary[ResourceProviderTestsConstants.DictionaryKey1]);
-            Assert.Contains(ResourceProviderTestsConstants.DictionaryKey2, testDictionary.Keys);
-            Assert.AreEqual(ResourceProviderTestsConstants.Dictionary2Value2, testDictionary[ResourceProviderTestsConstants.DictionaryKey2]);
+            var testDictionary = GetResourceDictionary(Constants.Default.Dictionary2Path);
+            Assert.Contains(Constants.DictionaryKey1, testDictionary.Keys);
+            Assert.AreEqual(Constants.Default.Dictionary2Value1, testDictionary[Constants.DictionaryKey1]);
+            Assert.Contains(Constants.DictionaryKey2, testDictionary.Keys);
+            Assert.AreEqual(Constants.Default.Dictionary2Value2, testDictionary[Constants.DictionaryKey2]);
         }
     }
 }

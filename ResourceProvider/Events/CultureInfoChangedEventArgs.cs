@@ -18,37 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
+using System;
 using System.Globalization;
-using ResourceProvider;
 
-namespace SampleApplication.Infrastructure
+namespace ResourceProvider.Events
 {
     /// <summary>
-    /// Константы приложения
+    /// Аргументы события смены текущей культуры провайдера ресурсов
     /// </summary>
-    public static class Constants
+    public class CultureInfoChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// Словарь с названиями культур
+        /// Инициализирует экземпляр аргументов события смены текущей культуры провайдера ресурсов
         /// </summary>
-        public static readonly ResourceDictionaryInfo CultureInfoNamesDictionary = new ResourceDictionaryInfo("CULTURE_DICTIONARY", "pack://application:,,,/SampleApplication;component/Resources/CultureInfoNamesDictionary.xaml");
+        /// <param name="oldValue">Предыдущее значение</param>
+        /// <param name="newValue">Новое значение</param>
+        public CultureInfoChangedEventArgs(CultureInfo oldValue, CultureInfo newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
+        }
 
         /// <summary>
-        /// Словарь со строками
+        /// Предыдущее значение
         /// </summary>
-        public static readonly ResourceDictionaryInfo StringDictionary = new ResourceDictionaryInfo("DICTIONARY1",
-            CultureInfo.GetCultureInfo("en-US"),
-            new Dictionary<CultureInfo, string>
-            {
-                {
-                    CultureInfo.GetCultureInfo("en-US"),
-                    "pack://application:,,,/SampleApplication;component/Resources/en-US/StringDictionary.xaml"
-                },
-                {
-                    CultureInfo.GetCultureInfo("ru-RU"),
-                    "pack://application:,,,/SampleApplication;component/Resources/ru-RU/StringDictionary.xaml"
-                }
-            });
+        public CultureInfo OldValue { get; }
+
+        /// <summary>
+        /// Новое значение
+        /// </summary>
+        public CultureInfo NewValue { get; }
     }
 }
